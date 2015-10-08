@@ -6,8 +6,18 @@ var Application = React.createClass({
   getInitialState: function() {
     return {data: []};
   },
-  
+
   render: function() {
+
+    var _highlighted = function(value, text) {
+        if(!text.trim()) {
+          return value;
+        }
+        else {
+          var re = new RegExp(text, 'ig');
+          return value.replace(re, '<b>' + text + '</b>'); 
+        }
+    };
 
     var tags = []
     this.props.app.tags.forEach(function(tag){
@@ -18,8 +28,8 @@ var Application = React.createClass({
 
     return (
       <div className="application">
-        <h1>{this.props.app.name}</h1>
-        <p>{this.props.app.description}</p>
+        <p>{_highlighted(this.props.app.name, this.props.highlightText)}</p>
+        <p>{_highlighted(this.props.app.description, this.props.highlightText)}</p>
         <p>{tags}</p>
       </div>
     );
@@ -48,6 +58,9 @@ var FilterableList = React.createClass({
   render: function() {
     var displayed = []
 
+    /*
+     * Shortcut to push data
+     */
     var _push = function(item, text) {
         displayed.push(
             <li>
@@ -56,8 +69,12 @@ var FilterableList = React.createClass({
         )
     };
 
+    /*
+     * Is current item matches to the text typed in searching field
+     */
     var _isMatching = function(item, text) {
-        return (item.name.indexOf(text) > -1) || (item.description.indexOf(text) > -1);
+        text = text.toUpperCase();
+        return (item.name.toUpperCase().indexOf(text) > -1) || (item.description.toUpperCase().indexOf(text) > -1);
     }
 
     // filter items
@@ -67,9 +84,8 @@ var FilterableList = React.createClass({
           _push(this.props.data[i], "");
         }
         else if (_isMatching(this.props.data[i], this.state.filter)) {
-         _push(this.props.data[i], this.state.filter);   
+          _push(this.props.data[i], this.state.filter);   
         }
-        
     }
 
     return (

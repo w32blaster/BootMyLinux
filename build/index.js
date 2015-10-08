@@ -1,10 +1,10 @@
 /**
  * One single suggestion 
  **/
-"use strict";
+'use strict';
 
 var Application = React.createClass({
-  displayName: "Application",
+  displayName: 'Application',
 
   getInitialState: function getInitialState() {
     return { data: [] };
@@ -12,30 +12,39 @@ var Application = React.createClass({
 
   render: function render() {
 
+    var _highlighted = function _highlighted(value, text) {
+      if (!text.trim()) {
+        return value;
+      } else {
+        var re = new RegExp(text, 'ig');
+        return value.replace(re, '<b>' + text + '</b>');
+      }
+    };
+
     var tags = [];
     this.props.app.tags.forEach(function (tag) {
       tags.push(React.createElement(
-        "span",
-        { className: "tag" },
+        'span',
+        { className: 'tag' },
         tag
       ));
     });
 
     return React.createElement(
-      "div",
-      { className: "application" },
+      'div',
+      { className: 'application' },
       React.createElement(
-        "h1",
+        'p',
         null,
-        this.props.app.name
+        _highlighted(this.props.app.name, this.props.highlightText)
       ),
       React.createElement(
-        "p",
+        'p',
         null,
-        this.props.app.description
+        _highlighted(this.props.app.description, this.props.highlightText)
       ),
       React.createElement(
-        "p",
+        'p',
         null,
         tags
       )
@@ -47,7 +56,7 @@ var Application = React.createClass({
  * Filterable list of Applications
  */
 var FilterableList = React.createClass({
-  displayName: "FilterableList",
+  displayName: 'FilterableList',
 
   getInitialState: function getInitialState() {
     return {
@@ -65,16 +74,23 @@ var FilterableList = React.createClass({
   render: function render() {
     var displayed = [];
 
+    /*
+     * Shortcut to push data
+     */
     var _push = function _push(item, text) {
       displayed.push(React.createElement(
-        "li",
+        'li',
         null,
         React.createElement(Application, { highlightText: text, app: item })
       ));
     };
 
+    /*
+     * Is current item matches to the text typed in searching field
+     */
     var _isMatching = function _isMatching(item, text) {
-      return item.name.indexOf(text) > -1 || item.description.indexOf(text) > -1;
+      text = text.toUpperCase();
+      return item.name.toUpperCase().indexOf(text) > -1 || item.description.toUpperCase().indexOf(text) > -1;
     };
 
     // filter items
@@ -88,11 +104,11 @@ var FilterableList = React.createClass({
     }
 
     return React.createElement(
-      "div",
+      'div',
       null,
-      React.createElement("input", { type: "text", onKeyUp: this.onSearchFieldUpdate }),
+      React.createElement('input', { type: 'text', onKeyUp: this.onSearchFieldUpdate }),
       React.createElement(
-        "ul",
+        'ul',
         null,
         displayed
       )
