@@ -1,0 +1,22 @@
+[
+	{
+		"id": 0,
+		"name": "openjdk",
+		"description": "Open-JDK",
+		"tags": ["java", "jdk"]	
+	},
+
+	{
+		"id": 1,
+		"name": "nodejs",
+		"description": "NodeJS - java-script based server",
+		"tags": ["node", "javascript", "frntend"]	
+	},
+
+	{
+		"id": 2,
+		"name": "shutter",
+		"description": "Shutter - application to make a screenshots",
+		"tags": ["desktop", "image"]	
+	}
+]
