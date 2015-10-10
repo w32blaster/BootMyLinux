@@ -9,6 +9,10 @@ var Application = React.createClass({
       };
   },
 
+  isSelected: function() {
+      return this.state.selected;
+  },
+
   _indexOfCaseInsensitive: function(value, text) {
       return value.toUpperCase().indexOf(text.toUpperCase());
   },
@@ -66,22 +70,35 @@ var FilterableList = React.createClass({
     };
   },
 
+  pullSelectedApps: function() {
+     var selectedApps = [];
+     for (var i = 0; i < this.length; i++) {
+        if (this.refs['app' + i].isSelected())
+          selectedApps.push(this.refs['app' + i]);
+     } 
+     return selectedApps;
+  },
+
   onSearchFieldUpdate: function(field) {
       this.setState({
         filter: field.target.value
       })
   },
 
+  length: 0,
+
   render: function() {
-    var displayed = []
+    
+    this.length = this.props.data.length;
+    var displayed = [];
 
     /*
      * Shortcut to push data
      */
-    var _push = function(item, text) {
+    var _push = function(item, text, idx) {
         displayed.push(
             <li>
-              <Application highlightText={text} app={item} />
+              <Application ref={'app' + idx} highlightText={text} app={item} />
             </li>
         )
     };
@@ -95,13 +112,13 @@ var FilterableList = React.createClass({
     }
 
     // filter items
-    for (var i = 0; i < this.props.data.length; i++) {
+    for (var i = 0; i < this.length; i++) {
         if(!this.state.filter.trim()) {
           // no filter activated
-          _push(this.props.data[i], "");
+          _push(this.props.data[i], "", i);
         }
         else if (_isMatching(this.props.data[i], this.state.filter)) {
-          _push(this.props.data[i], this.state.filter);   
+          _push(this.props.data[i], this.state.filter, i);   
         }
     }
 
@@ -114,6 +131,43 @@ var FilterableList = React.createClass({
       </div>  
       )
   }
+});
+
+/**
+ * Wrapper, that contains all the elements
+ */
+var Wrapper = React.createClass({
+
+  onAdd: function() {
+      var selectedApps = this.refs.filteredList.pullSelectedApps();
+      alert("Wow! Selected count is " + selectedApps.length);
+  },
+
+  render: function() {
+    return (
+        <div>
+          <div className="half">
+              <h1>Available programs</h1>
+              <FilterableList ref="filteredList" data={this.props.data} />
+          </div>
+
+          <div className="middle">
+              <button onClick={this.onAdd}> ⇒ </button> <br />
+              <button> ⇐ </button> <br />
+              <button> ⇚ </button> <br />
+          </div>
+
+          <div className="half">
+              <h1>Added programs</h1>
+              <div ref="addedApplications" ></div>
+          </div>
+
+          <div className="clear" />
+
+        </div>
+      )
+  }
+
 });
 
 /**
@@ -131,13 +185,9 @@ var FilterableList = React.createClass({
     }
 
     ReactDOM.render(
-          <FilterableList data={JSON.parse(req.response)} />
-      ,
-      document.getElementById("filterableList")
+      <Wrapper data={JSON.parse(req.response)} />,
+      document.getElementById("wrapper")
     );
-
-
-
   };
 
   req.send();

@@ -12,6 +12,10 @@ var Application = React.createClass({
     };
   },
 
+  isSelected: function isSelected() {
+    return this.state.selected;
+  },
+
   _indexOfCaseInsensitive: function _indexOfCaseInsensitive(value, text) {
     return value.toUpperCase().indexOf(text.toUpperCase());
   },
@@ -87,23 +91,35 @@ var FilterableList = React.createClass({
     };
   },
 
+  pullSelectedApps: function pullSelectedApps() {
+    var selectedApps = [];
+    for (var i = 0; i < this.length; i++) {
+      if (this.refs['app' + i].isSelected()) selectedApps.push(this.refs['app' + i]);
+    }
+    return selectedApps;
+  },
+
   onSearchFieldUpdate: function onSearchFieldUpdate(field) {
     this.setState({
       filter: field.target.value
     });
   },
 
+  length: 0,
+
   render: function render() {
+
+    this.length = this.props.data.length;
     var displayed = [];
 
     /*
      * Shortcut to push data
      */
-    var _push = function _push(item, text) {
+    var _push = function _push(item, text, idx) {
       displayed.push(React.createElement(
         "li",
         null,
-        React.createElement(Application, { highlightText: text, app: item })
+        React.createElement(Application, { ref: 'app' + idx, highlightText: text, app: item })
       ));
     };
 
@@ -116,12 +132,12 @@ var FilterableList = React.createClass({
     };
 
     // filter items
-    for (var i = 0; i < this.props.data.length; i++) {
+    for (var i = 0; i < this.length; i++) {
       if (!this.state.filter.trim()) {
         // no filter activated
-        _push(this.props.data[i], "");
+        _push(this.props.data[i], "", i);
       } else if (_isMatching(this.props.data[i], this.state.filter)) {
-        _push(this.props.data[i], this.state.filter);
+        _push(this.props.data[i], this.state.filter, i);
       }
     }
 
@@ -139,6 +155,72 @@ var FilterableList = React.createClass({
 });
 
 /**
+ * Wrapper, that contains all the elements
+ */
+var Wrapper = React.createClass({
+  displayName: "Wrapper",
+
+  onAdd: function onAdd() {
+    var selectedApps = this.refs.filteredList.pullSelectedApps();
+    alert("Wow! Selected count is " + selectedApps.length);
+  },
+
+  render: function render() {
+    return React.createElement(
+      "div",
+      null,
+      React.createElement(
+        "div",
+        { className: "half" },
+        React.createElement(
+          "h1",
+          null,
+          "Available programs"
+        ),
+        React.createElement(FilterableList, { ref: "filteredList", data: this.props.data })
+      ),
+      React.createElement(
+        "div",
+        { className: "middle" },
+        React.createElement(
+          "button",
+          { onClick: this.onAdd },
+          " ⇒ "
+        ),
+        " ",
+        React.createElement("br", null),
+        React.createElement(
+          "button",
+          null,
+          " ⇐ "
+        ),
+        " ",
+        React.createElement("br", null),
+        React.createElement(
+          "button",
+          null,
+          " ⇚ "
+        ),
+        " ",
+        React.createElement("br", null)
+      ),
+      React.createElement(
+        "div",
+        { className: "half" },
+        React.createElement(
+          "h1",
+          null,
+          "Added programs"
+        ),
+        React.createElement("div", { ref: "addedApplications" })
+      ),
+      React.createElement("div", { className: "clear" })
+    );
+  }
+
+});
+
+/**
  * Main method. Loads JSON and renders the list
  */
 (function () {
@@ -152,7 +234,7 @@ var FilterableList = React.createClass({
       throw new Error('nope');
     }
 
-    ReactDOM.render(React.createElement(FilterableList, { data: JSON.parse(req.response) }), document.getElementById("filterableList"));
+    ReactDOM.render(React.createElement(Wrapper, { data: JSON.parse(req.response) }), document.getElementById("wrapper"));
   };
 
   req.send();
