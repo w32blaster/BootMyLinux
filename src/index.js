@@ -4,20 +4,26 @@
 var Application = React.createClass({
 
   getInitialState: function() {
-    return {data: []};
+      return {data: []};
   },
 
-  render: function() {
+  _indexOfCaseInsensitive: function(value, text) {
+      return value.toUpperCase().indexOf(text.toUpperCase());
+  },
 
-    var _highlighted = function(value, text) {
-        if(!text.trim()) {
-          return value;
-        }
-        else {
-          var re = new RegExp(text, 'ig');
-          return value.replace(re, '<b>' + text + '</b>'); 
-        }
-    };
+  _highlighted: function(value, text) {
+      var startIdx = this._indexOfCaseInsensitive(value, text);
+      if(!text.trim() || startIdx === -1) {
+        return value;
+      }
+      else {
+        var endIdx = startIdx + text.length;
+        return [value.substring(0, startIdx), <b>{text}</b>, value.substring(endIdx)];
+      }
+  },
+
+
+  render: function() {
 
     var tags = []
     this.props.app.tags.forEach(function(tag){
@@ -28,8 +34,8 @@ var Application = React.createClass({
 
     return (
       <div className="application">
-        <p>{_highlighted(this.props.app.name, this.props.highlightText)}</p>
-        <p>{_highlighted(this.props.app.description, this.props.highlightText)}</p>
+        <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
+        <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
         <p>{tags}</p>
       </div>
     );
@@ -53,7 +59,6 @@ var FilterableList = React.createClass({
         filter: field.target.value
       })
   },
-
 
   render: function() {
     var displayed = []

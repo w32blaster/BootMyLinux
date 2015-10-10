@@ -1,50 +1,59 @@
 /**
  * One single suggestion 
  **/
-'use strict';
+"use strict";
 
 var Application = React.createClass({
-  displayName: 'Application',
+  displayName: "Application",
 
   getInitialState: function getInitialState() {
     return { data: [] };
   },
 
-  render: function render() {
+  _indexOfCaseInsensitive: function _indexOfCaseInsensitive(value, text) {
+    return value.toUpperCase().indexOf(text.toUpperCase());
+  },
 
-    var _highlighted = function _highlighted(value, text) {
-      if (!text.trim()) {
-        return value;
-      } else {
-        var re = new RegExp(text, 'ig');
-        return value.replace(re, '<b>' + text + '</b>');
-      }
-    };
+  _highlighted: function _highlighted(value, text) {
+    var startIdx = this._indexOfCaseInsensitive(value, text);
+    if (!text.trim() || startIdx === -1) {
+      return value;
+    } else {
+      var endIdx = startIdx + text.length;
+      return [value.substring(0, startIdx), React.createElement(
+        "b",
+        null,
+        text
+      ), value.substring(endIdx)];
+    }
+  },
+
+  render: function render() {
 
     var tags = [];
     this.props.app.tags.forEach(function (tag) {
       tags.push(React.createElement(
-        'span',
-        { className: 'tag' },
+        "span",
+        { className: "tag" },
         tag
       ));
     });
 
     return React.createElement(
-      'div',
-      { className: 'application' },
+      "div",
+      { className: "application" },
       React.createElement(
-        'p',
+        "p",
         null,
-        _highlighted(this.props.app.name, this.props.highlightText)
+        this._highlighted(this.props.app.name, this.props.highlightText)
       ),
       React.createElement(
-        'p',
+        "p",
         null,
-        _highlighted(this.props.app.description, this.props.highlightText)
+        this._highlighted(this.props.app.description, this.props.highlightText)
       ),
       React.createElement(
-        'p',
+        "p",
         null,
         tags
       )
@@ -56,7 +65,7 @@ var Application = React.createClass({
  * Filterable list of Applications
  */
 var FilterableList = React.createClass({
-  displayName: 'FilterableList',
+  displayName: "FilterableList",
 
   getInitialState: function getInitialState() {
     return {
@@ -79,7 +88,7 @@ var FilterableList = React.createClass({
      */
     var _push = function _push(item, text) {
       displayed.push(React.createElement(
-        'li',
+        "li",
         null,
         React.createElement(Application, { highlightText: text, app: item })
       ));
@@ -104,11 +113,11 @@ var FilterableList = React.createClass({
     }
 
     return React.createElement(
-      'div',
+      "div",
       null,
-      React.createElement('input', { type: 'text', onKeyUp: this.onSearchFieldUpdate }),
+      React.createElement("input", { type: "text", onKeyUp: this.onSearchFieldUpdate }),
       React.createElement(
-        'ul',
+        "ul",
         null,
         displayed
       )
