@@ -7,7 +7,9 @@ var Application = React.createClass({
   displayName: "Application",
 
   getInitialState: function getInitialState() {
-    return { data: [] };
+    return {
+      selected: false
+    };
   },
 
   _indexOfCaseInsensitive: function _indexOfCaseInsensitive(value, text) {
@@ -28,6 +30,12 @@ var Application = React.createClass({
     }
   },
 
+  onClick: function onClick(evt) {
+    this.setState({
+      selected: !this.state.selected
+    });
+  },
+
   render: function render() {
 
     var tags = [];
@@ -39,9 +47,14 @@ var Application = React.createClass({
       ));
     });
 
+    var className = "application";
+    if (this.state.selected) {
+      className += " selected";
+    }
+
     return React.createElement(
       "div",
-      { className: "application" },
+      { className: className, onClick: this.onClick },
       React.createElement(
         "p",
         null,

@@ -4,7 +4,9 @@
 var Application = React.createClass({
 
   getInitialState: function() {
-      return {data: []};
+      return {
+        selected: false
+      };
   },
 
   _indexOfCaseInsensitive: function(value, text) {
@@ -22,6 +24,11 @@ var Application = React.createClass({
       }
   },
 
+  onClick: function(evt) {
+    this.setState({
+        selected: !this.state.selected
+    })
+  },
 
   render: function() {
 
@@ -32,8 +39,13 @@ var Application = React.createClass({
         )
     });
 
+    var className = "application";
+    if (this.state.selected) {
+      className += " selected";
+    }
+
     return (
-      <div className="application">
+      <div className={className} onClick={this.onClick}>
         <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
         <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
         <p>{tags}</p>
