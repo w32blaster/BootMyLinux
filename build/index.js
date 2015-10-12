@@ -6,16 +6,6 @@
 var Application = React.createClass({
   displayName: "Application",
 
-  getInitialState: function getInitialState() {
-    return {
-      selected: false
-    };
-  },
-
-  isSelected: function isSelected() {
-    return this.state.selected;
-  },
-
   _indexOfCaseInsensitive: function _indexOfCaseInsensitive(value, text) {
     return value.toUpperCase().indexOf(text.toUpperCase());
   },
@@ -35,9 +25,7 @@ var Application = React.createClass({
   },
 
   onClick: function onClick(evt) {
-    this.setState({
-      selected: !this.state.selected
-    });
+    this.props.onButtonClick(this.props.app);
   },
 
   render: function render() {
@@ -51,32 +39,89 @@ var Application = React.createClass({
       ));
     });
 
-    var className = "application";
-    if (this.state.selected) {
-      className += " selected";
-    }
+    if (this.props.isTextHighlighted) {
 
-    return React.createElement(
-      "div",
-      { className: className, onClick: this.onClick },
-      React.createElement(
-        "p",
-        null,
-        this._highlighted(this.props.app.name, this.props.highlightText)
-      ),
-      React.createElement(
-        "p",
-        null,
-        this._highlighted(this.props.app.description, this.props.highlightText)
-      ),
-      React.createElement(
-        "p",
-        null,
-        tags
-      )
-    );
+      return React.createElement(
+        "div",
+        { className: "application" },
+        React.createElement(
+          "p",
+          null,
+          this._highlighted(this.props.app.name, this.props.highlightText)
+        ),
+        React.createElement(
+          "p",
+          null,
+          this._highlighted(this.props.app.description, this.props.highlightText)
+        ),
+        React.createElement(
+          "p",
+          null,
+          tags
+        ),
+        React.createElement(
+          "button",
+          { onClick: this.onClick },
+          "[+ Add]"
+        )
+      );
+    } else {
+
+      return React.createElement(
+        "div",
+        { className: "application" },
+        React.createElement(
+          "p",
+          null,
+          this.props.app.name
+        ),
+        React.createElement(
+          "p",
+          null,
+          this.props.app.description
+        ),
+        React.createElement(
+          "p",
+          null,
+          tags
+        ),
+        React.createElement(
+          "button",
+          { onClick: this.onClick },
+          "[- Remove]"
+        )
+      );
+    }
   }
 });
+
+/**
+ * Set of common functions to push and pull items from lists
+ */
+var PullPushMixin = {
+
+  pull: function pull(item) {
+    var idx = this.state.items.indexOf(item);
+    var deletedItem = this.state.items.splice(idx, 1)[0];
+
+    this.setState({
+      items: this.state.items,
+      filter: ""
+    });
+
+    return deletedItem;
+  },
+
+  push: function push(item) {
+
+    this.state.items.push(item);
+    this.setState({
+      items: this.state.items,
+      filter: ""
+    });
+  }
+
+};
 
 /**
  * Filterable list of Applications
@@ -84,19 +129,13 @@ var Application = React.createClass({
 var FilterableList = React.createClass({
   displayName: "FilterableList",
 
+  mixins: [PullPushMixin],
+
   getInitialState: function getInitialState() {
     return {
-      alreadyAdded: [],
+      items: this.props.data,
       filter: ""
     };
-  },
-
-  pullSelectedApps: function pullSelectedApps() {
-    var selectedApps = [];
-    for (var i = 0; i < this.length; i++) {
-      if (this.refs['app' + i].isSelected()) selectedApps.push(this.refs['app' + i]);
-    }
-    return selectedApps;
   },
 
   onSearchFieldUpdate: function onSearchFieldUpdate(field) {
@@ -105,21 +144,18 @@ var FilterableList = React.createClass({
     });
   },
 
-  length: 0,
-
   render: function render() {
 
-    this.length = this.props.data.length;
     var displayed = [];
 
     /*
      * Shortcut to push data
      */
-    var _push = function _push(item, text, idx) {
+    var _push = function _push(item, text, idx, callback) {
       displayed.push(React.createElement(
         "li",
         null,
-        React.createElement(Application, { ref: 'app' + idx, highlightText: text, app: item })
+        React.createElement(Application, { highlightText: text, app: item, onButtonClick: callback, isTextHighlighted: true })
       ));
     };
 
@@ -132,19 +168,59 @@ var FilterableList = React.createClass({
     };
 
     // filter items
-    for (var i = 0; i < this.length; i++) {
+    for (var i = 0; i < this.state.items.length; i++) {
       if (!this.state.filter.trim()) {
         // no filter activated
-        _push(this.props.data[i], "", i);
-      } else if (_isMatching(this.props.data[i], this.state.filter)) {
-        _push(this.props.data[i], this.state.filter, i);
+        _push(this.state.items[i], "", i, this.props.onAdd);
+      } else if (_isMatching(this.state.items[i], this.state.filter)) {
+        // filtered by searched phrase
+        _push(this.state.items[i], this.state.filter, i, this.props.onAdd);
       }
     }
 
     return React.createElement(
       "div",
       null,
-      React.createElement("input", { type: "text", onKeyUp: this.onSearchFieldUpdate }),
+      React.createElement("input", { id: "search-field", type: "text", onKeyUp: this.onSearchFieldUpdate }),
+      React.createElement(
+        "ul",
+        null,
+        displayed
+      )
+    );
+  }
+});
+
+/**
+ * List of selected (added) Applications.
+ */
+var AddedList = React.createClass({
+  displayName: "AddedList",
+
+  mixins: [PullPushMixin],
+
+  getInitialState: function getInitialState() {
+    return {
+      items: [],
+      filter: null
+    };
+  },
+
+  render: function render() {
+
+    var displayed = [];
+
+    for (var i = 0; i < this.state.items.length; i++) {
+      displayed.push(React.createElement(
+        "li",
+        null,
+        React.createElement(Application, { app: this.state.items[i], onButtonClick: this.props.onRemove, isTextHighlighted: false })
+      ));
+    }
+
+    return React.createElement(
+      "div",
+      null,
       React.createElement(
         "ul",
         null,
@@ -160,9 +236,14 @@ var FilterableList = React.createClass({
 var Wrapper = React.createClass({
   displayName: "Wrapper",
 
-  onAdd: function onAdd() {
-    var selectedApps = this.refs.filteredList.pullSelectedApps();
-    alert("Wow! Selected count is " + selectedApps.length);
+  onAdd: function onAdd(item) {
+    var appToAdd = this.refs.filteredList.pull(item);
+    this.refs.addedList.push(appToAdd);
+  },
+
+  onRemove: function onRemove(item) {
+    var appToRemove = this.refs.addedList.pull(item);
+    this.refs.filteredList.push(appToRemove);
   },
 
   render: function render() {
@@ -177,32 +258,7 @@ var Wrapper = React.createClass({
           null,
           "Available programs"
         ),
-        React.createElement(FilterableList, { ref: "filteredList", data: this.props.data })
-      ),
-      React.createElement(
-        "div",
-        { className: "middle" },
-        React.createElement(
-          "button",
-          { onClick: this.onAdd },
-          " ⇒ "
-        ),
-        " ",
-        React.createElement("br", null),
-        React.createElement(
-          "button",
-          null,
-          " ⇐ "
-        ),
-        " ",
-        React.createElement("br", null),
-        React.createElement(
-          "button",
-          null,
-          " ⇚ "
-        ),
-        " ",
-        React.createElement("br", null)
+        React.createElement(FilterableList, { ref: "filteredList", data: this.props.data, onAdd: this.onAdd })
       ),
       React.createElement(
         "div",
@@ -212,7 +268,7 @@ var Wrapper = React.createClass({
           null,
           "Added programs"
         ),
-        React.createElement("div", { ref: "addedApplications" })
+        React.createElement(AddedList, { ref: "addedList", onRemove: this.onRemove })
       ),
       React.createElement("div", { className: "clear" })
     );
