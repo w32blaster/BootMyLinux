@@ -186,6 +186,8 @@ var Modal = React.createClass({
       return (
          <div id="modal-background">
             <div id="dialog-content">
+              <button onClick={this.close}>[x] Close</button>
+
               <h1>Modal Window</h1>
               <p>Here will be some text, yo!</p>
               <pre>
@@ -197,7 +199,7 @@ var Modal = React.createClass({
     }
     else {
       return (
-          <p>fd</p>
+          <p>&nbsp;</p>
         )
     }
   }

@@ -232,6 +232,11 @@ var Modal = React.createClass({
           "div",
           { id: "dialog-content" },
           React.createElement(
+            "button",
+            { onClick: this.close },
+            "[x] Close"
+          ),
+          React.createElement(
             "h1",
             null,
             "Modal Window"
@@ -252,7 +257,7 @@ var Modal = React.createClass({
       return React.createElement(
         "p",
         null,
-        "fd"
+        " "
       );
     }
   }
