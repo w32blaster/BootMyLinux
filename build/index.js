@@ -191,6 +191,73 @@ var FilterableList = React.createClass({
   }
 });
 
+var Modal = React.createClass({
+  displayName: "Modal",
+
+  getInitialState: function getInitialState() {
+    return {
+      isModalWindowShown: false,
+      items: []
+    };
+  },
+
+  show: function show(items) {
+    this.setState({
+      isModalWindowShown: true,
+      items: items
+    });
+  },
+
+  close: function close() {
+    this.setState({ isModalWindowShown: false });
+  },
+
+  render: function render() {
+    if (this.state.isModalWindowShown) {
+
+      var displayed = [];
+      for (var i = 0; i < this.state.items.length; i++) {
+        displayed.push(React.createElement(
+          "p",
+          null,
+          " Application ",
+          this.state.items[i].name
+        ));
+      }
+
+      return React.createElement(
+        "div",
+        { id: "modal-background" },
+        React.createElement(
+          "div",
+          { id: "dialog-content" },
+          React.createElement(
+            "h1",
+            null,
+            "Modal Window"
+          ),
+          React.createElement(
+            "p",
+            null,
+            "Here will be some text, yo!"
+          ),
+          React.createElement(
+            "pre",
+            null,
+            displayed
+          )
+        )
+      );
+    } else {
+      return React.createElement(
+        "p",
+        null,
+        "fd"
+      );
+    }
+  }
+});
+
 /**
  * List of selected (added) Applications.
  */
@@ -202,8 +269,13 @@ var AddedList = React.createClass({
   getInitialState: function getInitialState() {
     return {
       items: [],
-      filter: null
+      filter: null,
+      modalIsOpen: false
     };
+  },
+
+  onGenerateScript: function onGenerateScript(ent) {
+    this.refs.modal.show(this.state.items);
   },
 
   render: function render() {
@@ -221,6 +293,12 @@ var AddedList = React.createClass({
     return React.createElement(
       "div",
       null,
+      React.createElement(Modal, { ref: "modal" }),
+      React.createElement(
+        "button",
+        { onClick: this.onGenerateScript, disabled: this.state.items.length == 0 },
+        "Generate script"
+      ),
       React.createElement(
         "ul",
         null,
@@ -274,6 +352,27 @@ var Wrapper = React.createClass({
     );
   }
 
+});
+
+var ToggleText = React.createClass({
+  displayName: "ToggleText",
+
+  render: function render() {
+    var text = this.props.content.trim() ? 'View Notes' : 'Add Notes';
+    if (this.props.content.trim()) {
+      return React.createElement(
+        "a",
+        { style: { color: 'red' }, href: "#", onClick: this.props.onClick },
+        text
+      );
+    } else {
+      return React.createElement(
+        "a",
+        { href: "#", onClick: this.props.openLightbox },
+        text
+      );
+    }
+  }
 });
 
 /**

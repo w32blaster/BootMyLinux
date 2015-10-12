@@ -153,6 +153,55 @@ var FilterableList = React.createClass({
   }
 });
 
+var Modal = React.createClass({
+  
+  getInitialState: function() {
+    return {
+      isModalWindowShown: false,
+      items: []
+    };
+  },
+
+  show: function(items) {
+    this.setState({ 
+      isModalWindowShown: true,
+      items: items
+    })
+  },
+
+  close: function() {
+    this.setState({ isModalWindowShown: false})
+  },
+
+  render: function() {
+    if (this.state.isModalWindowShown) {
+
+      var displayed = []
+      for (var i=0; i<this.state.items.length; i++) {
+          displayed.push (
+              <p> Application {this.state.items[i].name}</p>
+          )
+      }
+
+      return (
+         <div id="modal-background">
+            <div id="dialog-content">
+              <h1>Modal Window</h1>
+              <p>Here will be some text, yo!</p>
+              <pre>
+                 {displayed}
+              </pre>
+            </div>
+         </div>
+      )
+    }
+    else {
+      return (
+          <p>fd</p>
+        )
+    }
+  }
+});
 
 /**
  * List of selected (added) Applications.
@@ -164,8 +213,13 @@ var AddedList = React.createClass({
   getInitialState: function() {
     return {
       items: [],
-      filter: null
+      filter: null,
+      modalIsOpen: false
     };
+  },
+
+  onGenerateScript: function(ent) {
+    this.refs.modal.show(this.state.items);
   },
 
   render: function() {
@@ -182,6 +236,8 @@ var AddedList = React.createClass({
 
     return (
       <div>
+        <Modal ref="modal" />
+        <button onClick={this.onGenerateScript} disabled={this.state.items.length == 0}>Generate script</button>
         <ul>
           {displayed}
         </ul>
@@ -227,6 +283,18 @@ var Wrapper = React.createClass({
 
 });
 
+
+var ToggleText = React.createClass({                        
+            render: function() {
+                var text = this.props.content.trim() ? 'View Notes' : 'Add Notes';                
+                if (this.props.content.trim()){
+                    return ( <a style={{color: 'red'}} href='#' onClick={this.props.onClick}>{text}</a> );                                                            
+                } else {
+                    return ( <a href='#' onClick={this.props.openLightbox}>{text}</a>);                                                
+                }                
+            }
+        });
+
 /**
  * Main method. Loads JSON and renders the list
  */
@@ -244,8 +312,11 @@ var Wrapper = React.createClass({
     ReactDOM.render(
       <Wrapper data={JSON.parse(req.response)} />,
       document.getElementById("wrapper")
-    );
+    );    
+
   };
 
   req.send();
 })()
+
+
