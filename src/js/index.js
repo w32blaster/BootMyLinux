@@ -1,3 +1,6 @@
+var React = require('react');
+var ReactDOM = require('react-dom');
+
 /**
  * One single suggestion 
  **/
@@ -34,29 +37,33 @@ var Application = React.createClass({
     if (this.props.isTextHighlighted) {
 
       return (
-        <div className="application">
-          <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
-          <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
-          <p>{tags}</p>
-          <button onClick={this.onClick}>[+ Add]</button>
-        </div>
+          <div className="application">
+            <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
+            <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+            <p>{tags}</p>
+            <button onClick={this.onClick}>[+ Add]</button>
+          </div>
       );
 
     } else {
 
       return (
-        <div className="application">
-          <p>{this.props.app.name}</p>
-          <p>{this.props.app.description}</p>
-          <p>{tags}</p>
-          <button onClick={this.onClick}>[- Remove]</button>
-        </div>
+          <div className="application">
+            <p>{this.props.app.name}</p>
+            <p>{this.props.app.description}</p>
+            <p>{tags}</p>
+            <button onClick={this.onClick}>[- Remove]</button>
+          </div>
       );
 
     }
 
   }
 });
+
+
+
+
 
 /**
  * Set of common functions to push and pull items from lists
@@ -117,9 +124,9 @@ var FilterableList = React.createClass({
     var _push = function(item, text, idx, callback) {
         displayed.push(
           <li>
-            <Application highlightText={text} app={item} onButtonClick={callback} isTextHighlighted={true}/>
+              <Application key={"app" + idx} highlightText={text} app={item} onButtonClick={callback} isTextHighlighted={true}/>
           </li>
-        )
+        );
     };
 
     /*
@@ -141,6 +148,8 @@ var FilterableList = React.createClass({
           _push(this.state.items[i], this.state.filter, i, this.props.onAdd);   
         }
     }
+
+    console.log(displayed);
 
     return (
       <div>
@@ -284,18 +293,6 @@ var Wrapper = React.createClass({
   }
 
 });
-
-
-var ToggleText = React.createClass({                        
-            render: function() {
-                var text = this.props.content.trim() ? 'View Notes' : 'Add Notes';                
-                if (this.props.content.trim()){
-                    return ( <a style={{color: 'red'}} href='#' onClick={this.props.onClick}>{text}</a> );                                                            
-                } else {
-                    return ( <a href='#' onClick={this.props.openLightbox}>{text}</a>);                                                
-                }                
-            }
-        });
 
 /**
  * Main method. Loads JSON and renders the list
