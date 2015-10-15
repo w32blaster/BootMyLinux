@@ -1,6 +1,69 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Application from './components/Application';
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+/**
+ * One single suggestion 
+ **/
+var Application = React.createClass({
+
+  _indexOfCaseInsensitive: function(value, text) {
+      return value.toUpperCase().indexOf(text.toUpperCase());
+  },
+
+  _highlighted: function(value, text) {
+      var startIdx = this._indexOfCaseInsensitive(value, text);
+      if(!text.trim() || startIdx === -1) {
+        return value;
+      }
+      else {
+        var endIdx = startIdx + text.length;
+        return [value.substring(0, startIdx), <b>{text}</b>, value.substring(endIdx)];
+      }
+  },
+
+  onClick: function(evt) {
+    this.props.onButtonClick(this.props.app);
+  },
+
+  render: function() {
+
+    var tags = []
+    this.props.app.tags.forEach(function(tag){
+        tags.push(
+            <span className="tag">{tag}</span> 
+        )
+    });
+
+    if (this.props.isTextHighlighted) {
+
+      return (
+          <div className="application">
+            <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
+            <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+            <p>{tags}</p>
+            <button onClick={this.onClick}>[+ Add]</button>
+          </div>
+      );
+
+    } else {
+
+      return (
+          <div className="application">
+            <p>{this.props.app.name}</p>
+            <p>{this.props.app.description}</p>
+            <p>{tags}</p>
+            <button onClick={this.onClick}>[- Remove]</button>
+          </div>
+      );
+
+    }
+
+  }
+});
+
+
+
+
 
 /**
  * Set of common functions to push and pull items from lists
@@ -61,9 +124,9 @@ var FilterableList = React.createClass({
     var _push = function(item, text, idx, callback) {
         displayed.push(
           <li>
-            <Application highlightText={text} app={item} onButtonClick={callback} isTextHighlighted={true}/>
+              <Application key={"app" + idx} highlightText={text} app={item} onButtonClick={callback} isTextHighlighted={true}/>
           </li>
-        )
+        );
     };
 
     /*
@@ -85,6 +148,8 @@ var FilterableList = React.createClass({
           _push(this.state.items[i], this.state.filter, i, this.props.onAdd);   
         }
     }
+
+    console.log(displayed);
 
     return (
       <div>

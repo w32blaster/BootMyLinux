@@ -1,4 +1,4 @@
-import React from 'react';
+var React = require('react');
 
 /**
  * One single suggestion 
@@ -36,23 +36,27 @@ var Application = React.createClass({
     if (this.props.isTextHighlighted) {
 
       return (
-        <div className="application">
-          <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
-          <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
-          <p>{tags}</p>
-          <button onClick={this.onClick}>[+ Add]</button>
-        </div>
+        <li>
+          <div className="application">
+            <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
+            <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+            <p>{tags}</p>
+            <button onClick={this.onClick}>[+ Add]</button>
+          </div>
+        </li>
       );
 
     } else {
 
       return (
-        <div className="application">
-          <p>{this.props.app.name}</p>
-          <p>{this.props.app.description}</p>
-          <p>{tags}</p>
-          <button onClick={this.onClick}>[- Remove]</button>
-        </div>
+        <li>
+          <div className="application">
+            <p>{this.props.app.name}</p>
+            <p>{this.props.app.description}</p>
+            <p>{tags}</p>
+            <button onClick={this.onClick}>[- Remove]</button>
+          </div>
+        </li>
       );
 
     }

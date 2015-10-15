@@ -18,17 +18,21 @@ import cssnano from 'cssnano';
 import htmlReplace from 'gulp-html-replace';
 import image from 'gulp-image';
 import runSequence from 'run-sequence';
- 
+import react from 'gulp-react';
+import reactify from 'reactify';
+
 const paths = {
   bundle: 'app.js',
-  srcJsx: 'src/js/index.js',
+  srcJsx: [
+      'src/js/index.js',
+      'src/js/components/Application.js'
+      ],
   srcCss: 'src/styles/*.css',
   srcImg: 'src/images/**',
   dist: 'dist',
-  distJs: 'dist/js',
-  distImg: 'dist/images'
+  distImg: 'dist/images',
+  distCss: 'dist/styles'
 };
-
 
 gulp.task('clean', cb => {
   rimraf('dist', cb);
@@ -47,28 +51,29 @@ gulp.task('watchify', () => {
 
   function rebundle() {
     return bundler
+      .transform(reactify)
       .bundle()
       .on('error', notify.onError())
       .pipe(source(paths.bundle))
-      .pipe(gulp.dest(paths.distJs))
+      .pipe(gulp.dest(paths.dist))
       .pipe(reload({stream: true}));
   }
 
-  bundler.transform(babelify)
+  bundler
   .on('update', rebundle);
   return rebundle();
 });
 
 gulp.task('browserify', () => {
   browserify(paths.srcJsx)
-  .transform(babelify)
+  .transform(reactify)
   .bundle()
   .pipe(source(paths.bundle))
   .pipe(buffer())
   .pipe(sourcemaps.init())
   .pipe(uglify())
   .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(paths.distJs));
+  .pipe(gulp.dest(paths.dist));
 });
 
 gulp.task('styles', () => {
@@ -76,13 +81,18 @@ gulp.task('styles', () => {
   .pipe(sourcemaps.init())
   .pipe(postcss([vars, extend, nested, cssnano]))
   .pipe(sourcemaps.write('.'))
-  .pipe(gulp.dest(paths.dist))
+  .pipe(gulp.dest(paths.distCss))
   .pipe(reload({stream: true}));
 });
 
+gulp.task('jsons', () => {
+  gulp.src('src/*.json')
+  .pipe(gulp.dest(paths.dist));
+});
+
 gulp.task('htmlReplace', () => {
-  gulp.src('index.html')
-  .pipe(htmlReplace({css: 'styles/main.css', js: 'js/app.js'}))
+  gulp.src('src/index.html')
+  .pipe(htmlReplace({css: 'styles/main.css', js: 'app.js'}))
   .pipe(gulp.dest(paths.dist));
 });
 
@@ -104,10 +114,10 @@ gulp.task('watchTask', () => {
 });
 
 gulp.task('watch', cb => {
-  runSequence('clean', ['browserSync', 'watchTask', 'watchify', 'styles', 'lint', 'images'], cb);
+  runSequence('clean', ['browserSync', 'watchTask', 'watchify', 'styles', 'jsons', 'lint', 'htmlReplace', 'images'], cb);
 });
 
 gulp.task('build', cb => {
   process.env.NODE_ENV = 'production';
-  runSequence('clean', ['browserify', 'styles', 'htmlReplace', 'images'], cb);
+  runSequence('clean', ['browserify', 'styles', 'jsons', 'htmlReplace', 'images'], cb);
 });
