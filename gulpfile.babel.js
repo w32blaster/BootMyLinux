@@ -23,10 +23,7 @@ import reactify from 'reactify';
 
 const paths = {
   bundle: 'app.js',
-  srcJsx: [
-      'src/js/index.js',
-      'src/js/components/Application.js'
-      ],
+  srcJsx: 'src/js/index.js',
   srcCss: 'src/styles/*.css',
   srcImg: 'src/images/**',
   dist: 'dist',
@@ -51,7 +48,7 @@ gulp.task('watchify', () => {
 
   function rebundle() {
     return bundler
-      .transform(reactify)
+      .transform(babelify)
       .bundle()
       .on('error', notify.onError())
       .pipe(source(paths.bundle))
@@ -66,7 +63,7 @@ gulp.task('watchify', () => {
 
 gulp.task('browserify', () => {
   browserify(paths.srcJsx)
-  .transform(reactify)
+  .transform(babelify)
   .bundle()
   .pipe(source(paths.bundle))
   .pipe(buffer())

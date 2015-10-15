@@ -6,6 +6,12 @@ var ReactDOM = require('react-dom');
  **/
 var Application = React.createClass({
 
+  getInitialState: function() {
+    return {
+      isDescriptionShown: false,
+    };
+  },
+
   _indexOfCaseInsensitive: function(value, text) {
       return value.toUpperCase().indexOf(text.toUpperCase());
   },
@@ -21,6 +27,12 @@ var Application = React.createClass({
       }
   },
 
+  onToggle: function(evt) {
+      this.setState({
+        isDescriptionShown: !this.state.isDescriptionShown
+      });
+  },
+
   onClick: function(evt) {
     this.props.onButtonClick(this.props.app);
   },
@@ -34,24 +46,29 @@ var Application = React.createClass({
         )
     });
 
-    if (this.props.isTextHighlighted) {
+    var descriptionClass = this.state.isDescriptionShown ? "description shown" : "description";
 
+    if (this.props.isTextHighlighted) {
       return (
-          <div className="application">
-            <p>{this._highlighted(this.props.app.name, this.props.highlightText)}</p>
-            <p>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+          // Searchable applications, could be highlighted
+          <div className="application" id={"app" + this.props.app.id}>
+            <h1>{this._highlighted(this.props.app.name, this.props.highlightText)}</h1>
+            <p className={descriptionClass}>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
             <p>{tags}</p>
+            <button onClick={this.onToggle}>[Show]</button>
             <button onClick={this.onClick}>[+ Add]</button>
           </div>
       );
 
     } else {
 
+      // simple applications
       return (
-          <div className="application">
-            <p>{this.props.app.name}</p>
-            <p>{this.props.app.description}</p>
+          <div className="application" id={"app" + this.props.app.id}>
+            <h1>{this.props.app.name}</h1>
+            <p className={descriptionClass}>{this.props.app.description}</p>
             <p>{tags}</p>
+            <button onClick={this.onToggle}>[Show]</button>
             <button onClick={this.onClick}>[- Remove]</button>
           </div>
       );
