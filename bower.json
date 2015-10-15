@@ -1,0 +1,26 @@
+{
+  "name": "BootMyLinux",
+  "version": "0.0.0",
+  "homepage": "https://github.com/w32blaster/BootMyLinux",
+  "authors": [
+    "Ilja Hämäläinen <ilja@p-i.net>"
+  ],
+  "description": "The simple web application that allows to generate simple bash script to install software to a fresh linux computer",
+  "main": "src/index.js",
+  "keywords": [
+    "linux",
+    "shell",
+    "ubuntu",
+    "apt-get",
+    "install",
+    "programs"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

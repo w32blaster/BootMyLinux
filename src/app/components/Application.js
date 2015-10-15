@@ -1,7 +1,11 @@
+import React from 'react';
+
 /**
- * One single suggestion 
+ * Application
+ * one single suggestion for a program,
+ * displayed as a single card
  **/
-var Application = React.createClass({
+export default React.createClass({
 
   getInitialState: function() {
     return {data: []};
