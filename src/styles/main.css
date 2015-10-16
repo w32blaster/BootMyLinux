@@ -80,3 +80,8 @@
 .shown {
     max-height: 500px !important;
 }
+
+.highlighted {
+    font-weight: bold;
+    background-color: red;
+}

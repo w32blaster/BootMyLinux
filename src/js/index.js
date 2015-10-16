@@ -40,10 +40,18 @@ var Application = React.createClass({
   render: function() {
 
     var tags = []
+    var hTag = this.props.highlightedTag.substring(1);
     this.props.app.tags.forEach(function(tag){
-        tags.push(
-            <span className="tag">{tag}</span> 
-        )
+        if (tag === hTag) {
+            tags.push(
+              <span className="tag highlighted">{tag}</span> 
+            )
+        }
+        else {
+           tags.push(
+              <span className="tag">{tag}</span> 
+           )
+        }
     });
 
     var descriptionClass = this.state.isDescriptionShown ? "description shown" : "description";
@@ -60,7 +68,8 @@ var Application = React.createClass({
           </div>
       );
 
-    } else {
+    }
+    else {
 
       // simple applications
       return (
@@ -138,10 +147,10 @@ var FilterableList = React.createClass({
     /*
      * Shortcut to push data
      */
-    var _push = function(item, text, idx, callback) {
+    var _push = function(item, text, idx, callback, tag) {
         displayed.push(
           <li>
-              <Application key={"app" + idx} highlightText={text} app={item} onButtonClick={callback} isTextHighlighted={true}/>
+              <Application key={"app" + idx} highlightText={text} highlightedTag={tag} app={item} onButtonClick={callback} isTextHighlighted={true}/>
           </li>
         );
     };
@@ -154,19 +163,35 @@ var FilterableList = React.createClass({
         return (item.name.toUpperCase().indexOf(text) > -1) || (item.description.toUpperCase().indexOf(text) > -1);
     }
 
+    /*
+     * Is current item tag matches the entered phrase
+     */
+    var _isTagMatching = function(item, text) {
+        var isStartingWithHash = (text.substring(0, 1) === "#");
+        if (isStartingWithHash) {
+          var hasTagMatching = (item.tags.indexOf(text.substring(1).toLowerCase()) > -1);
+          return isStartingWithHash && hasTagMatching;
+        }
+        else {
+          return false;
+        }
+    }
+
     // filter items
     for (var i = 0; i < this.state.items.length; i++) {
         if(!this.state.filter.trim()) {
           // no filter activated
-          _push(this.state.items[i], "", i, this.props.onAdd);
+          _push(this.state.items[i], "", i, this.props.onAdd, "");
+        }
+        else if (_isTagMatching(this.state.items[i], this.state.filter)) {
+          // filtered by tag
+          _push(this.state.items[i], "", i, this.props.onAdd, this.state.filter);
         }
         else if (_isMatching(this.state.items[i], this.state.filter)) {
-          // filtered by searched phrase
-          _push(this.state.items[i], this.state.filter, i, this.props.onAdd);   
+          // filtered by any phrase
+          _push(this.state.items[i], this.state.filter, i, this.props.onAdd, "");   
         }
     }
-
-    console.log(displayed);
 
     return (
       <div>
