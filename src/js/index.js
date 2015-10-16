@@ -37,22 +37,27 @@ var Application = React.createClass({
     this.props.onButtonClick(this.props.app);
   },
 
+  onTagClick: function(evt) {
+    document.getElementById("search-field").value = "#" + evt.currentTarget.innerText;
+  },
+
   render: function() {
 
     var tags = []
     var hTag = this.props.highlightedTag.substring(1);
-    this.props.app.tags.forEach(function(tag){
-        if (tag === hTag) {
+    for (var i = 0; i < this.props.app.tags.length; i++)
+    {
+        if (this.props.app.tags[i] === hTag) {
             tags.push(
-              <span className="tag highlighted">{tag}</span> 
+              <span className="tag highlighted">{this.props.app.tags[i]}</span> 
             )
         }
         else {
            tags.push(
-              <span className="tag">{tag}</span> 
+              <span className="tag" onClick={this.onTagClick}>{this.props.app.tags[i]}</span> 
            )
         }
-    });
+    }
 
     var descriptionClass = this.state.isDescriptionShown ? "description shown" : "description";
 
