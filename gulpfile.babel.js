@@ -20,6 +20,7 @@ import image from 'gulp-image';
 import runSequence from 'run-sequence';
 import react from 'gulp-react';
 import reactify from 'reactify';
+import fs from 'fs'
 
 const paths = {
   bundle: 'app.js',

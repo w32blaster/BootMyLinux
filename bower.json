@@ -22,5 +22,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "react-autosuggest": "~2.1.1"
+  }
 }

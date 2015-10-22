@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var Autosuggest = require('react-autosuggest');
 
 /**
  * One single suggestion 
@@ -134,6 +135,7 @@ var FilterableList = React.createClass({
   
   getInitialState: function() {
     return {
+      tags: this.props.tags,
       items: this.props.data,
       filter: ""
     };
@@ -143,6 +145,40 @@ var FilterableList = React.createClass({
       this.setState({
         filter: field.target.value
       })
+  },
+
+  
+  getSuggestions: function(input, callback) {
+      var suggestions = []
+      if(input[0] === '#') {
+        const regex = new RegExp('^' + input, 'i');
+        suggestions = this.state.tags.filter(suburb => regex.test(suburb));
+        var i = 0;
+      }
+      else {
+        this.setState({
+          filter: input
+        })
+      }
+    
+      callback(null, suggestions);
+  },
+
+  isSuggestionShown: function(input) {
+     if (input.length == 0) {
+        this.setState({
+          filter: ""
+        })
+        return false;
+     }
+     else 
+        return true;
+  },
+
+  onSuggestionSelected: function(input, event) {
+    this.setState({
+        filter: input
+    })
   },
 
   render: function() {
@@ -172,7 +208,7 @@ var FilterableList = React.createClass({
      * Is current item tag matches the entered phrase
      */
     var _isTagMatching = function(item, text) {
-        var isStartingWithHash = (text.substring(0, 1) === "#");
+        var isStartingWithHash = (text[0] === "#");
         if (isStartingWithHash) {
           var hasTagMatching = (item.tags.indexOf(text.substring(1).toLowerCase()) > -1);
           return isStartingWithHash && hasTagMatching;
@@ -200,7 +236,7 @@ var FilterableList = React.createClass({
 
     return (
       <div>
-        <input id="search-field" type="text" onKeyUp={this.onSearchFieldUpdate} />
+        <Autosuggest id="search-field" suggestions={this.getSuggestions} onSuggestionSelected={this.onSuggestionSelected} showWhen={this.isSuggestionShown} />
         <ul>
           {displayed}
         </ul>
@@ -325,7 +361,7 @@ var Wrapper = React.createClass({
 
           <div className="half">
               <h1>Available programs</h1>
-              <FilterableList ref="filteredList" data={this.props.data} onAdd={this.onAdd} />
+              <FilterableList ref="filteredList" data={this.props.data} tags={this.props.tags} onAdd={this.onAdd} />
           </div>
 
           <div className="half">
@@ -355,8 +391,23 @@ var Wrapper = React.createClass({
       throw new Error('nope');
     }
 
+    var json = JSON.parse(req.response);
+
+    // collect unique tags
+    var usedTags = [];
+    for(var key in json) {
+      var tags = json[key].tags
+      if(tags) {
+        for (var i in tags) {
+          if (usedTags.indexOf(tags[i]) == -1) {
+              usedTags.push("#" + tags[i].toLowerCase());
+          }
+        }
+      }
+    }
+
     ReactDOM.render(
-      <Wrapper data={JSON.parse(req.response)} />,
+      <Wrapper data={json} tags={usedTags}/>,
       document.getElementById("wrapper")
     );    
 
