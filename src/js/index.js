@@ -14,12 +14,12 @@ var Application = React.createClass({
   },
 
   _indexOfCaseInsensitive: function(value, text) {
-      return value.toUpperCase().indexOf(text.toUpperCase());
+      return text ? value.toUpperCase().indexOf(text.toUpperCase()) : -1;
   },
 
   _highlighted: function(value, text) {
       var startIdx = this._indexOfCaseInsensitive(value, text);
-      if(!text.trim() || startIdx === -1) {
+      if(!text || !text.trim() || startIdx === -1) {
         return value;
       }
       else {
