@@ -45,7 +45,7 @@ var Application = React.createClass({
   render: function() {
 
     var tags = []
-    var hTag = this.props.highlightedTag.substring(1);
+    var hTag = this.props.highlightedTag ? this.props.highlightedTag.substring(1) : null;
     for (var i = 0; i < this.props.app.tags.length; i++)
     {
         if (this.props.app.tags[i] === hTag) {
@@ -237,9 +237,11 @@ var FilterableList = React.createClass({
     return (
       <div>
         <Autosuggest id="search-field" suggestions={this.getSuggestions} onSuggestionSelected={this.onSuggestionSelected} showWhen={this.isSuggestionShown} />
-        <ul>
-          {displayed}
-        </ul>
+        <div className="scrollable">
+          <ul>
+            {displayed}
+          </ul>
+        </div>
       </div>  
     )
   }
@@ -291,7 +293,7 @@ var Modal = React.createClass({
     }
     else {
       return (
-          <p>&nbsp;</p>
+          <div id="modal-holder">&nbsp;</div>
         )
     }
   }
@@ -319,7 +321,7 @@ var AddedList = React.createClass({
   render: function() {
  
     var displayed = [];
-
+    
     for(var i=0; i<this.state.items.length; i++) {
       displayed.push(
           <li>
@@ -331,10 +333,12 @@ var AddedList = React.createClass({
     return (
       <div>
         <Modal ref="modal" />
-        <button onClick={this.onGenerateScript} disabled={this.state.items.length == 0}>Generate script</button>
-        <ul>
-          {displayed}
-        </ul>
+        <button id="generate-btn" onClick={this.onGenerateScript} disabled={this.state.items.length == 0}>Generate script</button>
+        <div className="scrollable">
+          <ul>
+            {displayed}
+          </ul>
+        </div>
       </div>  
       )
   }
@@ -359,12 +363,12 @@ var Wrapper = React.createClass({
     return (
         <div>
 
-          <div className="half">
+          <div className="half left">
               <h1>Available programs</h1>
               <FilterableList ref="filteredList" data={this.props.data} tags={this.props.tags} onAdd={this.onAdd} />
           </div>
 
-          <div className="half">
+          <div className="half right">
               <h1>Added programs</h1>
               <AddedList ref="addedList" onRemove={this.onRemove} />
           </div>

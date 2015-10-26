@@ -4,6 +4,41 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: #F5F5F5;
+    color: #67727A;
+    margin: 0;
+    font-family: 'Muli', sans-serif;
+}
+
+#header {
+    font-family: 'Oswald', sans-serif;
+    background-color: #C3D7DF;
+    color: #D75C37;
+    width: 100%;
+    margin: 0;
+    padding: 100px;
+    text-align: center;
+}
+#header H1 {
+    font-size: 4em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+#header H2 {
+    font-size: 2.5em;
+    font-weight: 400;
+}
+#header H3 {
+    font-weight: 300;
+    font-size: 1.7em;
+}
+
+#content {
+    padding-top: 50px;
+    position: relative;
+    overflow: hidden;
+}
 .selected {
     border: 3px solid green;
 }
@@ -11,17 +46,32 @@
 .half {
     width: 40%;
     float: left;
-    border: 1px solid gray;
-    margin: 5px;
+    margin: 5%;
     padding: 10px;
+    height: 500px;
 }
-
+.left {
+    border-right: 1px solid #6991AC;
+}
+.right{ 
+    border-left: 1px solid #6991AC;
+}
+#wrapper {
+    width:960px;
+    margin:0 auto;
+    overflow: hidden
+}
+.scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+    height: 100%;
+}
 .clear {
     clear: both;
 }
 
 .application {
-    border: 3px solid gray;
+    background-color: #C3D7DF;
     margin: 5px;
     padding: 5px;
 
@@ -35,7 +85,7 @@
     color: white;
     background: gray;
     margin-left: 10px;
-    padding: 2px;
+    padding: 2px 4px;
 
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -44,7 +94,7 @@
     cursor: pointer;
 }
 .tag:hover {
-    background: blue;
+    background: #6991AC;
 }
 
 .highlighted {
@@ -88,4 +138,10 @@
 }
 .shown {
     max-height: 500px !important;
+}
+#generate-btn {
+    margin-top: 0;
+}
+#modal-holder {
+    position: absolute;
 }
