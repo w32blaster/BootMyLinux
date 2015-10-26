@@ -11,6 +11,36 @@ body {
     font-family: 'Muli', sans-serif;
 }
 
+button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    color: #F5F5F5;
+    background-color: #6991AC;
+    border-color: #67727A;
+}
+
+button:hover {
+    background-color: #D75C37;
+}
+
 #header {
     font-family: 'Oswald', sans-serif;
     background-color: #C3D7DF;
@@ -65,6 +95,9 @@ body {
     max-height: 400px;
     overflow-y: auto;
     height: 100%;
+}
+.scrollable UL {
+    list-style: none;
 }
 .clear {
     clear: both;
@@ -127,6 +160,9 @@ body {
     transform: translateX(-50%) translateY(-50%);
 }
 
+.application {
+    position: relative;
+}
 .application .description {
     max-height: 0;
     overflow: hidden;
@@ -135,6 +171,11 @@ body {
     -ms-transition: max-height 500ms ease;
     -o-transition: max-height 500ms ease;
     transition: max-height 500ms ease;
+}
+.application .appAddBtn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 .shown {
     max-height: 500px !important;

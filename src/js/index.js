@@ -67,10 +67,11 @@ var Application = React.createClass({
           // Searchable applications, could be highlighted
           <div className="application" id={"app" + this.props.app.id}>
             <h1>{this._highlighted(this.props.app.name, this.props.highlightText)}</h1>
-            <p className={descriptionClass}>{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+            <p className="short-description">{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+            <p className={descriptionClass}>{this._highlighted(this.props.app.descriptionLong, this.props.highlightText)}</p>
             <p>{tags}</p>
             <button onClick={this.onToggle}>[Show]</button>
-            <button onClick={this.onClick}>[+ Add]</button>
+            <button className="appAddBtn" onClick={this.onClick}>[+ Add]</button>
           </div>
       );
 
@@ -81,10 +82,11 @@ var Application = React.createClass({
       return (
           <div className="application" id={"app" + this.props.app.id}>
             <h1>{this.props.app.name}</h1>
-            <p className={descriptionClass}>{this.props.app.description}</p>
+            <p className="short-description">{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+            <p className={descriptionClass}>{this.props.app.descriptionLong}</p>
             <p>{tags}</p>
             <button onClick={this.onToggle}>[Show]</button>
-            <button onClick={this.onClick}>[- Remove]</button>
+            <button className="appAddBtn" onClick={this.onClick}>[- Remove]</button>
           </div>
       );
 
