@@ -117,7 +117,7 @@ button:hover {
     font-size: 0.7em;
     color: white;
     background: gray;
-    margin-left: 10px;
+    margin-right: 10px;
     padding: 2px 4px;
 
     -webkit-border-radius: 3px;
@@ -185,4 +185,23 @@ button:hover {
 }
 #modal-holder {
     position: absolute;
+}
+.application H1 {
+    margin-bottom: 0;
+}
+.short-description  {
+    margin: 0;
+}
+
+.appDesriptionExpand {
+    display: inline;
+    background-color: #C3D7DF;
+    color: #6991AC;
+    padding: 3px 7px;
+    border: none;
+    margin-right: 10px;
+}
+.description {
+    margin: 0;
+    font-size: 0.7em;
 }

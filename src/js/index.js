@@ -45,7 +45,7 @@ var Application = React.createClass({
   render: function() {
 
     var tags = []
-    var hTag = this.props.highlightedTag ? this.props.highlightedTag.substring(1) : null;
+    var hTag = this.props.highlightedTag ? this.props.highlightedTag.substring(1) : "";
     for (var i = 0; i < this.props.app.tags.length; i++)
     {
         if (this.props.app.tags[i] === hTag) {
@@ -68,9 +68,12 @@ var Application = React.createClass({
           <div className="application" id={"app" + this.props.app.id}>
             <h1>{this._highlighted(this.props.app.name, this.props.highlightText)}</h1>
             <p className="short-description">{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+
+            <button className="appDesriptionExpand" onClick={this.onToggle}>[↓]</button>
             <p className={descriptionClass}>{this._highlighted(this.props.app.descriptionLong, this.props.highlightText)}</p>
+            
             <p>{tags}</p>
-            <button onClick={this.onToggle}>[Show]</button>
+            
             <button className="appAddBtn" onClick={this.onClick}>[+ Add]</button>
           </div>
       );
@@ -83,9 +86,11 @@ var Application = React.createClass({
           <div className="application" id={"app" + this.props.app.id}>
             <h1>{this.props.app.name}</h1>
             <p className="short-description">{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
+
+            <button className="appDesriptionExpand" onClick={this.onToggle}>[↓]</button>
             <p className={descriptionClass}>{this.props.app.descriptionLong}</p>
+
             <p>{tags}</p>
-            <button onClick={this.onToggle}>[Show]</button>
             <button className="appAddBtn" onClick={this.onClick}>[- Remove]</button>
           </div>
       );
