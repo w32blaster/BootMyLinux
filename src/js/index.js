@@ -82,6 +82,10 @@ var FilterableList = React.createClass({
         return true;
   },
 
+  onClear: function(ent) {
+    this.onTagSelected("");
+  },
+
   onTagSelected: function(value) {
     this.onSuggestionSelected(value, null);
     this.refs.autosuggest.state.value = value;
@@ -171,6 +175,8 @@ var FilterableList = React.createClass({
             showWhen={this.isSuggestionShown}
             value={this.state.filter}
             inputAttributes={inputAttributes} />
+
+            <button className="appDesriptionExpand clearBtn" onClick={this.onClear}>x</button>
 
         <div className="scrollable">
           <ul>

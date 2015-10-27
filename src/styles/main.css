@@ -40,7 +40,16 @@ button {
 button:hover {
     background-color: #D75C37;
 }
-
+button[disabled] {
+    cursor: not-allowed;
+    filter: alpha(opacity=65);
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    opacity: .65;
+}
+button[disabled]:hover {
+    background-color: #6991AC;
+}
 
 input {
     display: block;
@@ -224,6 +233,11 @@ input {
 .appDesriptionExpand:hover {
     color: #F5F5F5;
 }
+.clearBtn {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 5px;
+}
 .description {
     margin: 0;
     font-size: 0.7em;
@@ -238,9 +252,10 @@ input {
 
 }
 
-
 .react-autosuggest {
     position: relative;
+    width: 80%;
+    display: inline-block;
 }
 .react-autosuggest:focus {
       outline: none;
