@@ -57,6 +57,7 @@
     "react": "~0.14.0",
     "reactify": "~1.1.1",
     "event-stream": "~3.3.2",
-    "gulp-util": "~3.0.7"
+    "gulp-util": "~3.0.7",
+    "react-autosuggest": "~2.1.1"
   }
 }
