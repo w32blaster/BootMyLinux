@@ -10,6 +10,7 @@ module.exports = React.createClass({
   getInitialState: function() {
     return {
       isDescriptionShown: false,
+      onTagSelected: this.props.onTagSelected
     };
   },
 
@@ -39,7 +40,9 @@ module.exports = React.createClass({
   },
 
   onTagClick: function(evt) {
-    document.getElementById("search-field").value = "#" + evt.currentTarget.innerText;
+    const value = "#" + evt.target.innerHTML;
+    document.getElementById("search-field").value = value;
+    this.state.onTagSelected(value);
   },
 
   render: function() {

@@ -82,6 +82,11 @@ var FilterableList = React.createClass({
         return true;
   },
 
+  onTagSelected: function(value) {
+    this.onSuggestionSelected(value, null);
+    this.refs.autosuggest.state.value = value;
+  },
+
   onSuggestionSelected: function(input, event) {
     this.setState({
         filter: input
@@ -95,10 +100,17 @@ var FilterableList = React.createClass({
     /*
      * Shortcut to push data
      */
-    var _push = function(item, text, idx, callback, tag) {
+    var _push = function(item, text, idx, callback, callbackTagSelected, tag) {
         displayed.push(
           <li>
-              <Application key={"app" + idx} highlightText={text} highlightedTag={tag} app={item} onButtonClick={callback} isTextHighlighted={true}/>
+              <Application 
+                    key={"app" + idx} 
+                    highlightText={text} 
+                    highlightedTag={tag} 
+                    app={item} 
+                    onButtonClick={callback} 
+                    onTagSelected={callbackTagSelected}
+                    isTextHighlighted={true}/>
           </li>
         );
     };
@@ -125,25 +137,41 @@ var FilterableList = React.createClass({
         }
     }
 
-    // filter items
+    // filter application list
     for (var i = 0; i < this.state.items.length; i++) {
         if(!this.state.filter.trim()) {
-          // no filter activated
-          _push(this.state.items[i], "", i, this.props.onAdd, "");
+
+          // no filter activated: nothing is highlighted
+          _push(this.state.items[i], "", i, this.props.onAdd, this.onTagSelected, "");
         }
         else if (_isTagMatching(this.state.items[i], this.state.filter)) {
-          // filtered by tag
-          _push(this.state.items[i], "", i, this.props.onAdd, this.state.filter);
+          
+          // filtered by tag (tag is highlighted)
+          _push(this.state.items[i], "", i, this.props.onAdd, this.onTagSelected, this.state.filter);
         }
         else if (_isMatching(this.state.items[i], this.state.filter)) {
-          // filtered by any phrase
-          _push(this.state.items[i], this.state.filter, i, this.props.onAdd, "");   
+
+          // filtered by any phrase (searched words are marked with bold text)
+          _push(this.state.items[i], this.state.filter, i, this.props.onAdd, this.onTagSelected, "");   
         }
     }
 
+    const inputAttributes = {
+      id: 'search-field',
+      placeholder: 'Enter search...'
+    };
+
     return (
       <div>
-        <Autosuggest id="search-field" suggestions={this.getSuggestions} onSuggestionSelected={this.onSuggestionSelected} showWhen={this.isSuggestionShown} />
+
+        <Autosuggest
+            ref="autosuggest"
+            suggestions={this.getSuggestions} 
+            onSuggestionSelected={this.onSuggestionSelected} 
+            showWhen={this.isSuggestionShown}
+            value={this.state.filter}
+            inputAttributes={inputAttributes} />
+
         <div className="scrollable">
           <ul>
             {displayed}
