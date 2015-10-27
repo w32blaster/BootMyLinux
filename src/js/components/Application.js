@@ -25,7 +25,7 @@ module.exports = React.createClass({
       }
       else {
         var endIdx = startIdx + text.length;
-        return [value.substring(0, startIdx), <b>{text}</b>, value.substring(endIdx)];
+        return [value.substring(0, startIdx), <b className="found">{text}</b>, value.substring(endIdx)];
       }
   },
 
