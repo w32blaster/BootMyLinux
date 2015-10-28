@@ -36,9 +36,31 @@ module.exports = React.createClass({
               <button onClick={this.close}>[x] Close</button>
 
               <h1>Modal Window</h1>
-              <p>Here will be some text, yo!</p>
-              <pre>
+              <p>Here is your script. Copy that content and save as .sh script. Then execute it and relax!</p>
+              <pre id="ready-script">
+                  
+                 <p>#!/bin/bash</p>
+
+                 <p>
+                    # check the SUDO privileges<br />
+                    if [ `id -u` -eq 0 ]<br />
+                    then<br />
+                    &nbsp;   echo "Hi there! This script will install software for you. Enjoy!"<br />
+                    else<br />
+                    &nbsp;   echo "This script must be execused with a SUDO preveleges! Program will be stopped."<br />
+                    &nbsp;   exit 1<br />
+                    fi<br />
+                 </p>
+
+                 <p>
+                   apt-get update<br />
+                   apt-get upgrade -y<br />
+                   apt-get dist-upgrade -y<br />
+                   apt-get autoremove -y<br />
+                 </p>
+
                  {displayed}
+
               </pre>
             </div>
          </div>

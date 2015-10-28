@@ -181,12 +181,23 @@ input {
     top: 50%;
     left: 50%;
     width: 50%;
-    max-width: 630px;
-    min-width: 320px;
+    max-width: 800px;
+    min-width: 600px;
+    padding: 20px;
     height: auto;
     z-index: 2000;
     backface-visibility: hidden;
     transform: translateX(-50%) translateY(-50%);
+    background-color: #D75C37;
+    color: #F5F5F5;
+}
+
+#ready-script {
+    background-color: #C3D7DF;
+    color: #67727A;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .application {
