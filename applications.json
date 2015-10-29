@@ -1,0 +1,41 @@
+[
+	{
+		"id": 0,
+		"name": "openjdk",
+		"description": "Open-JDK",
+		"descriptionLong": "Open realisation of JDK",
+		"tags": ["java", "jdk"]	
+	},
+
+	{
+		"id": 1,
+		"name": "nodejs",
+		"description": "NodeJS - java-script based server",
+		"descriptionLong": "NodeJS is a server written on javascript. Long description",
+		"tags": ["node", "javascript", "frontend"]	
+	},
+
+	{
+		"id": 2,
+		"name": "shutter",
+		"description": "Shutter - application to make a screenshots",
+		"descriptionLong": "If you need to make screenshots often, you need a handy program to do that. Shutter is the best option for that",
+		"tags": ["desktop", "image", "linux"]	
+	},
+
+	{
+		"id": 3,
+		"name": "thunderbird",
+		"description": "The most popular email client for any platform.",
+		"descriptionLong": "The best email client written my Mozilla.",
+		"tags": ["desktop", "email", "linux"]	
+	},
+
+	{
+		"id": 4,
+		"name": "Git",
+		"description": "The version control system",
+		"descriptionLong": "Git is a widely used version control system for software development. It is a distributed revision control system with an emphasis on speed, data integrity, and support for distributed, non-linear workflows.",
+		"tags": ["git", "dcvs"]
+	}
+]

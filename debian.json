@@ -1,0 +1,43 @@
+[
+	{
+		"id": 0,
+		"commands": [
+			"apt-get install openjdk-8-jre -y"
+		]
+	},
+
+	{
+		"id": 1,
+		"commands": [
+			"apt-get install nodejs -y",
+			"apt-get install npm -y",
+			"ln -s /usr/bin/nodejs /usr/bin/node"
+		]
+	},
+
+	{
+		"id": 2,
+		"commands": [
+			"apt-get install shutter -y"
+		]	
+	},
+
+	{
+		"id": 3,
+		"commands": [
+			"apt-get install thunderbird -y"
+		]
+	},
+
+	{
+		"id": 4,
+		"commands": [
+			 "apt-get install git git-completion bash-completion -y",
+			 "git config --global user.name \"Your Name\"",
+			 "git config --global user.email \"your@email.com\"",
+			 "git config --global color.diff auto",
+			 "git config --global color.status auto",
+			 "git config --global color.branch auto"
+		]
+	}
+]
