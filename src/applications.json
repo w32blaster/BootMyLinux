@@ -29,5 +29,13 @@
 		"description": "The most popular email client for any platform.",
 		"descriptionLong": "The best email client written my Mozilla.",
 		"tags": ["desktop", "email", "linux"]	
+	},
+
+	{
+		"id": 4,
+		"name": "diodon",
+		"description": "GTK+ Clipboard manager",
+		"descriptionLong": "Diodon is a lightweight clipboard manager for Linux which 'aims to be the best integrated clipboard manager for the Gnome/Unity desktop'. Diodon features include Ubuntu indicator, clipboard sync (primary selection and Ctrl+C / Ctrl+V clipboard) and an option to set the clipboard size.",
+		"tags": ["clipboard", "indicator", "panel", "utility"]
 	}
 ]
