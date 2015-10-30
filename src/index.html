@@ -1,8 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html prefix="og: http://ogp.me/ns#" xmlns="http://www.w3.org/1999/xhtml" itemscope itemtype="http://schema.org/SoftwareApplication">
   <head>
     <meta charset="UTF-8" />
-    <title>Hello React!</title>
+    <title>Boot My Linux</title>
+
+    <meta property="og:description" name="description" itemprop="description" content="The simple webapp that allows to construct simple script to install software to your freshly installed Linux" />
+    <meta itemprop="keywords" name="keywords" content="Linix,Script,Software,Install">
+    <meta itemprop="author" name="author" content="W32Blaster">
+    <meta itemprop="applicationCategory" content="Script Generator" />
+    <meta property="og:title" itemprop="name" content="Boot My Linux" />
+    <meta property="og:type" content="product.item" />
+    <meta property="og:url" itemprop="url" content="http://w32blaster.github.io/BootMyLinux/" />
+    
+    <meta itemprop="image" property="og:image" content="http://w32blaster.github.io/BootMyLinux/logo.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="300" />
+
+    <meta property="og:site_name" content="Boot My Linux" />
+    <meta itemprop="operatingSystem" content="Linux" />
+    <meta itemprop="permissions" content="sudo" />
     
     <link href='https://fonts.googleapis.com/css?family=Oswald:400,300|Muli' rel='stylesheet' type='text/css'>
 
@@ -10,11 +27,15 @@
     <link rel="stylesheet" href="../dist/styles/main.css">
     <!-- endbuild -->
 
+    <link rel="alternate" type="application/json+oembed"
+        href="http://w32blaster.github.io/BootMyLinux/oEmbed.json"
+        title="Boot My Linux oEmbed Profile" />
+
   </head>
 
   <body>
   
-    <section id="header">
+    <section id="header" itemprop="headline">
         <h1>Got fresh Linux installation?</h1>
         <h2>Need to install tons of new programms?</h2>
         <h3>Generate script and install usefull apps with only one command!</h3>
@@ -26,10 +47,11 @@
 
 
     <section id="footer">
-      <p>by W32blaster, 2015</p>
+      <p>
+        by <span itemprop="copyrightHolder">W32blaster</span>, <span itemprop="copyrightYear">2015<</span>
+      </p>
     </section>
-    
-    
+  
     <!-- build:js -->
     <script src="../dist/app.js"></script>
     <!-- endbuild -->

@@ -1,0 +1,13 @@
+{
+      "version": "1.0",
+      "type": "link",
+      "title": "Boot My Linux",
+      "url": "http://w32blaster.github.io/BootMyLinux/",
+      "author_name": "W32Blaster",
+      "author_url": "https://github.com/w32blaster",
+      "provider_name": "Boot My Linux",
+      "provider_url": "http://w32blaster.github.io/BootMyLinux/",
+      "thumbnail_url": "http://w32blaster.github.io/BootMyLinux/logo.jpg",
+      "thumbnail_width": "400",
+      "thumbnail_height": "400"
+}
