@@ -39,5 +39,12 @@
 			 "git config --global color.status auto",
 			 "git config --global color.branch auto"
 		]
-	}
+	},
+
+	{
+		"id": 5,
+		"commands": [
+			"apt-get install diodon -y"
+		]
+	},
 ]

@@ -37,5 +37,12 @@
 		"description": "The version control system",
 		"descriptionLong": "Git is a widely used version control system for software development. It is a distributed revision control system with an emphasis on speed, data integrity, and support for distributed, non-linear workflows.",
 		"tags": ["git", "dcvs"]
+	},
+	{
+	    "id": 5,
+		"name": "diodon",
+		"description": "GTK+ Clipboard manager",
+		"descriptionLong": "Diodon is a lightweight clipboard manager for Linux which 'aims to be the best integrated clipboard manager for the Gnome/Unity desktop'. Diodon features include Ubuntu indicator, clipboard sync (primary selection and Ctrl+C / Ctrl+V clipboard) and an option to set the clipboard size.",
+		"tags": ["clipboard", "indicator", "panel", "utility"]
 	}
 ]
