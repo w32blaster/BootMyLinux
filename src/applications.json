@@ -29,5 +29,13 @@
 		"description": "The most popular email client for any platform.",
 		"descriptionLong": "The best email client written my Mozilla.",
 		"tags": ["desktop", "email", "linux"]	
+	},
+
+	{
+		"id": 4,
+		"name": "Git",
+		"description": "The version control system",
+		"descriptionLong": "Git is a widely used version control system for software development. It is a distributed revision control system with an emphasis on speed, data integrity, and support for distributed, non-linear workflows.",
+		"tags": ["git", "dcvs"]
 	}
 ]
