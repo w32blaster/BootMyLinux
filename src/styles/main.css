@@ -200,6 +200,10 @@ input {
     overflow-y: auto;
 }
 
+#ready-script .comment {
+    color: #6991AC;
+}
+
 .application {
     position: relative;
 }

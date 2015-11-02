@@ -26,7 +26,7 @@ module.exports = React.createClass({
 
       var displayed = []
       for (var i=0; i<this.state.items.length; i++) {
-          displayed.push(this.state.items[i].id);
+          displayed[this.state.items[i].id] = this.state.items[i].name;
       }
 
       return (

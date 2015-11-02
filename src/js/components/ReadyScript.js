@@ -29,11 +29,11 @@ module.exports = React.createClass({
         }
 
         var json = JSON.parse(req.response);
-            
+        var ii = 0;    
         // collect instructions for selected apps
         for(var key in json) {
-          if(usedIds.indexOf(json[key].id) > -1) {
 
+          if(typeof usedIds[json[key].id] !== "undefined") {
             var commands = [];
             for (var i in json[key].commands) {
               commands.push(
@@ -43,6 +43,11 @@ module.exports = React.createClass({
 
             selectedApps.push(
                 <p>
+                    <span className="comment">
+                    #<br />
+                    # {ii++}. Install "{usedIds[json[key].id]}"<br />
+                    #<br />
+                    </span>
                     {commands}
                 </p>
             );
@@ -61,10 +66,14 @@ module.exports = React.createClass({
     return (
 			<pre id="ready-script">
                   
-                 <p>#!/bin/bash</p>
+                 <p>
+                    <span className="comment">#!/bin/bash</span>
+                 </p>
 
                  <p>
-                    # check the SUDO privileges<br />
+                    <span className="comment">
+                        # check the SUDO privileges<br />
+                    </span>
                     if [ `id -u` -eq 0 ]<br />
                     then<br />
                     &nbsp;   echo "Hi there! This script will install software for you. Enjoy!"<br />
@@ -78,10 +87,14 @@ module.exports = React.createClass({
                    apt-get update<br />
                    apt-get upgrade -y<br />
                    apt-get dist-upgrade -y<br />
-                   apt-get autoremove -y<br />
                  </p>
 
                  {this.state.items}
+
+                 <p>
+                    apt-get autoremove -y<br />
+                    apt-get autoclean -y<br />
+                 </p>
 
               </pre>
               );
