@@ -254,16 +254,18 @@ var Wrapper = React.createClass({
   render: function() {
     return (
         <div>
-
-          <div className="half left">
-              <h1>Available programs</h1>
-              <FilterableList ref="filteredList" data={this.props.data} tags={this.props.tags} onAdd={this.onAdd} />
-          </div>
-
-          <div className="half right">
-              <h1>Added programs</h1>
+          <div className="row">
+            <div className="col-md-4">
+              <h1>Your selection</h1>
               <AddedList ref="addedList" onRemove={this.onRemove} />
+            </div>
+            <div className="col-md-8">
+              <h1>Available applications</h1>
+              <FilterableList ref="filteredList" data={this.props.data} tags={this.props.tags} onAdd={this.onAdd} />
+            </div>
           </div>
+
+          
 
           <div className="clear" />
 
