@@ -222,6 +222,7 @@ input {
 }
 #generate-btn {
     margin-top: 0;
+    margin-bottom: 19px;
 }
 #modal-holder {
     position: absolute;
@@ -307,4 +308,9 @@ input {
 
 .found {
     color: #D75C37;
+}
+
+#explanation {
+    font-size: 0.7em;
+    margin: 5px 0 10px;
 }

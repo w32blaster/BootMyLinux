@@ -178,6 +178,8 @@ var FilterableList = React.createClass({
 
             <button className="appDesriptionExpand clearBtn" onClick={this.onClear}>x</button>
 
+            <div id="explanation">Type any sympol to search by title or start with <strong>#</strong> to search by tag.</div>
+
         <div className="scrollable">
           <ul>
             {displayed}
