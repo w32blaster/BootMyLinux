@@ -5,8 +5,8 @@
 }
 
 body {
-    background-color: #F2EDF0;
-    color: #6534ff;
+    background-color: #F6F4FF;
+    color: #1800ff;
     margin: 0;
     font-family: 'Muli', sans-serif;
 }
@@ -29,8 +29,8 @@ button {
     -ms-user-select: none;
     user-select: none;
     background-image: none;
-    border: 5px solid #6534ff;
-    color: #6534ff;
+    border: 5px solid #1800ff;
+    color: #1800ff;
     background-color: transparent;
     text-transform: uppercase;
     font-weight: 700;
@@ -57,10 +57,10 @@ input {
     padding: 6px 12px;
     font-size: 1.1em;
     line-height: 1.42857143;
-    color: #6534ff;
-    background-color: #F2EDF0;
+    color: #1800ff;
+    background-color: #F6F4FF;
     background-image: none;
-    border: 5px solid #6534ff;
+    border: 5px solid #1800ff;
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
@@ -71,12 +71,17 @@ ul {
 }
 #header {
     font-family: 'Oswald', sans-serif;
-    background-color: #6534ff;
-    color: #F2EDF0;
+    background-color: #10069B;
+    color: #F6F4FF;
     width: 100%;
     margin: 0;
-    padding: 100px;
-    text-align: center;
+    text-align: right;
+    position: fixed;
+    z-index: 1000;
+}
+#header ul li {
+  display: inline-block;
+  list-style: none;
 }
 #header H1 {
     font-size: 4em;
@@ -93,7 +98,7 @@ ul {
 }
 
 #content {
-    padding-top: 50px;
+    padding-top: 56px;
     position: relative;
     overflow: hidden;
 }
@@ -114,16 +119,25 @@ ul {
 .right{ 
     border-left: 1px solid #6991AC;
 }
-.container {
-
-}
 #wrapper {
     margin:0 auto;
-    overflow: hidden
+    overflow: hidden;
+    padding-left: 350px;
+}
+.sidebar {
+    width: 350px;
+    z-index: 1000;
+    position: fixed;
+    left: 350px;
+    height: 100%;
+    margin-left: -350px;
+    overflow-y: auto;
+    padding: 0 20px;
+    background-color: #1800ff;
+    color: #F6F4FF;
 }
 .scrollable {
     margin-top: 10px;
-    max-height: 400px;
     overflow-y: auto;
     height: 100%;
 }
@@ -200,7 +214,7 @@ ul {
     margin-bottom: 15px;
     padding: 15px 0;
     position: relative;
-    border-bottom: 1px solid #6534ff;
+    border-bottom: 1px solid #1800ff;
     position: relative;
 }
 .application .description {
@@ -223,6 +237,8 @@ ul {
 #generate-btn {
     margin-top: 0;
     margin-bottom: 19px;
+    border-color: #F6F4FF;
+    color: #F6F4FF;
 }
 #modal-holder {
     position: absolute;
@@ -237,14 +253,14 @@ ul {
 .appDesriptionExpand {
     display: inline;
     background-color: transparent;
-    color: #6534ff;
+    color: #1800ff;
     padding: 2px 6px;
     border: none;
     margin-left: 0px;
     height: 60px;
-    border-right: 5px solid #6534ff;
-    border-top: 5px solid #6534ff;
-    border-bottom: 5px solid #6534ff;
+    border-right: 5px solid #1800ff;
+    border-top: 5px solid #1800ff;
+    border-bottom: 5px solid #1800ff;
     width: 10%;
 }
 .appDesriptionExpand:hover {
@@ -259,12 +275,15 @@ ul {
     font-size: 0.7em;
 }
 
-#footer {
-    background-color: #6534ff;
-    color: #F2EDF0;
+footer {
+    background-color: #1800ff;
+    color: #F6F4FF;
     text-align: center;
-    font-size: 0.8em;
-
+    font-size: .8em;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 55px;
 }
 
 .react-autosuggest {

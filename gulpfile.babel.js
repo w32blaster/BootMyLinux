@@ -26,6 +26,7 @@ const paths = {
   bundle: 'app.js',
   srcJsx: 'src/js/index.js',
   srcCss: 'src/styles/*.css',
+  srcHtml: 'src/*.html',
   srcImg: 'src/images/**',
   dist: 'dist',
   distImg: 'dist/images',
@@ -109,6 +110,7 @@ gulp.task('lint', () => {
 gulp.task('watchTask', () => {
   gulp.watch(paths.srcCss, ['styles']);
   gulp.watch(paths.srcJsx, ['lint']);
+  gulp.watch(paths.srcHtml, ['htmlReplace']);
 });
 
 gulp.task('watch', cb => {

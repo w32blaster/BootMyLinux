@@ -254,14 +254,28 @@ var Wrapper = React.createClass({
   render: function() {
     return (
         <div>
-          <div className="row">
-            <div className="col-md-4">
-              <h1>Your selection</h1>
-              <AddedList ref="addedList" onRemove={this.onRemove} />
+          <div className="content-container">
+            <div className="sidebar">
+              <div>
+                <h1>Got fresh Linux installation?</h1>
+                <h2>Need to install tons of new programms?</h2>
+                <h3>Generate script and install useful apps with only one command.</h3>
+              </div>
+              <div>
+                <h1>Your selection</h1>
+                <AddedList ref="addedList" onRemove={this.onRemove} />
+              </div>
+              <footer>
+                <p>by <span itemprop="copyrightHolder">W32blaster</span>, <span itemprop="copyrightYear">2015</span></p>
+              </footer>
             </div>
-            <div className="col-md-8">
-              <h1>Available applications</h1>
-              <FilterableList ref="filteredList" data={this.props.data} tags={this.props.tags} onAdd={this.onAdd} />
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-md-12">
+                  <h1>Available applications</h1>
+                  <FilterableList ref="filteredList" data={this.props.data} tags={this.props.tags} onAdd={this.onAdd} />
+                </div>
+              </div>
             </div>
           </div>
 
