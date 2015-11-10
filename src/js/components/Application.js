@@ -73,7 +73,6 @@ module.exports = React.createClass({
             <h1>{this._highlighted(this.props.app.name, this.props.highlightText)}</h1>
             <p className="short-description">{this._highlighted(this.props.app.description, this.props.highlightText)}</p>
 
-            <button className="appDesriptionExpand" onClick={this.onToggle}>[↓]</button>
             <p className={descriptionClass}>{this._highlighted(this.props.app.descriptionLong, this.props.highlightText)}</p>
             
             <p>{tags}</p>
@@ -85,7 +84,7 @@ module.exports = React.createClass({
     }
     else {
 
-      // simple applications
+      // Added to the basket applications
       return (
           <div className="application" id={"app" + this.props.app.id}>
             <h1>{this.props.app.name}</h1>
